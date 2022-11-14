@@ -1,8 +1,13 @@
+import ChatInput from './ChatInput';
+import MessageList from './MessageList';
+
 const HomePage = () => {
   return (
-    <div className="">
-      <h1>Welcome to the MESSENGER</h1>
-    </div>
+    <main className="">
+      <MessageList />
+
+      <ChatInput />
+    </main>
   );
 };
 export default HomePage;
