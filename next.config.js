@@ -7,4 +7,7 @@ module.exports = {
   },
   // BETA still
   experimental: { appDir: true },
+  // env: {
+  //   PUSHER_SECRET_1: process.env.PUSHER_SECRET,
+  // },
 };

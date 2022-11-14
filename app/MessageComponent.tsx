@@ -41,7 +41,8 @@ const MessageComponent = ({ message }: Props) => {
               isUser && 'text-right'
             }`}
           >
-            {new Date(message.created_at).toLocaleString()}
+            {/* Caused some hydration error where server client text mismatch */}
+            {/* {new Date(message.created_at).toLocaleString()} */}
           </p>
         </div>
       </div>
