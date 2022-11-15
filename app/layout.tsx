@@ -14,6 +14,7 @@ export default async function RootLayout({
       <head></head>
       <body>
         <Providers session={session}>
+          {/* @ts-ignore */}
           <Header />
           {children}
         </Providers>
