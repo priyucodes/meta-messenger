@@ -1,11 +1,11 @@
+import { unstable_getServerSession } from 'next-auth';
 import Image from 'next/image'; // next 13
 import Link from 'next/link';
 import LogoutButton from './LogoutButton';
 // import Image from 'next/legacy/image'; // next 12 will be removed soon
 
-const Header = () => {
-  // const session = useSession()
-  const session = true;
+const Header = async () => {
+  const session = await unstable_getServerSession();
 
   // Can easily refactor it by conditionally rendering it inside the main jsx
   if (session)
@@ -15,7 +15,7 @@ const Header = () => {
         <div className="flex space-x-2">
           <Image
             // session?.user?.image
-            src={'https://links.papareact.com/jne'}
+            src={session.user?.image!}
             height={10}
             width={50}
             className="rounded-full mx-2 object-contain"
@@ -23,7 +23,7 @@ const Header = () => {
           />
           <div className="">
             <p className="text-blue-500">Logged in as:</p>
-            <p className="font-bold text-lg">John Cena</p>
+            <p className="font-bold text-lg">{session.user?.name}</p>
           </div>
         </div>
 

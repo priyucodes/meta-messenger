@@ -3,7 +3,11 @@ module.exports = {
   reactStrictMode: true,
   images: {
     // optimize image(for different screen sizes acc to our need etc. on the server)
-    domains: ['links.papareact.com', 'scontent.fdel11-2.fna.fbcdn.net'],
+    domains: [
+      'links.papareact.com',
+      'scontent.fdel11-2.fna.fbcdn.net',
+      'platform-lookaside.fbsbx.com',
+    ],
   },
   // BETA still
   experimental: { appDir: true },

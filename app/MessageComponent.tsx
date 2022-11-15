@@ -1,12 +1,16 @@
+import { unstable_getServerSession } from 'next-auth';
+import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { Message } from '../typings';
-
+import TimeAgo from 'react-timeago';
 type Props = {
   message: Message;
   // session: any;
 };
 const MessageComponent = ({ message }: Props) => {
-  const isUser = true;
+  // This will happen in client (it is a client component because its parent(where it is being rendered from) is a client component) so it inherits the client behavior.
+  const { data: session } = useSession();
+  const isUser = session?.user?.email === message.email;
   return (
     <div className={`flex w-fit ${isUser && 'ml-auto'}`}>
       <div className={`flex-shrink-0 ${isUser && 'order-2'}`}>
@@ -43,6 +47,7 @@ const MessageComponent = ({ message }: Props) => {
           >
             {/* Caused some hydration error where server client text mismatch */}
             {/* {new Date(message.created_at).toLocaleString()} */}
+            <TimeAgo date={new Date(message.created_at)} />
           </p>
         </div>
       </div>

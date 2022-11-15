@@ -5,7 +5,12 @@ import { v4 as uuid } from 'uuid';
 import { Message } from '../typings';
 import useSwr from 'swr';
 import fetcher from '../utils/fetchMessages';
-const ChatInput = () => {
+import { unstable_getServerSession } from 'next-auth';
+
+type Props = {
+  session: Awaited<ReturnType<typeof unstable_getServerSession>>;
+};
+const ChatInput = ({ session }: Props) => {
   const [input, setInput] = useState('');
 
   // We fetch the info in cache and the key to access cache is '/api/getMessages' we can name it anything
@@ -16,21 +21,19 @@ const ChatInput = () => {
   const addMessage = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!input) return;
+    if (!input || !session) return;
 
     const messageToSend = input;
     setInput('');
 
     const id = uuid();
-
     const message: Message = {
       id,
       message: messageToSend,
       created_at: Date.now(),
-      username: 'John Cena',
-      profilePic:
-        'https://scontent.fdel11-2.fna.fbcdn.net/v/t1.6435-9/69472937_2964432280448451_9093298325230190592_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=5gWot6mlZSoAX9t-mYo&_nc_ht=scontent.fdel11-2.fna&oh=00_AfCWfFukOlSiSdklYQdYJP4NSuhjV5DUK83hrkDJ2IoQVw&oe=63995313',
-      email: 'saroj@gmail.com',
+      username: session?.user?.name!,
+      profilePic: session?.user?.image!,
+      email: session?.user?.email!,
     };
 
     const uploadMessageToUpstash = async () => {
@@ -63,6 +66,7 @@ const ChatInput = () => {
       <input
         type="text"
         value={input}
+        disabled={!session}
         onChange={e => setInput(e.target.value)}
         placeholder="Enter message here..."
         className="flex-1 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent px-5 py-3 disabled:opacity-50 disabled:cursor-not-allowed placeholder:text-gray-300"
